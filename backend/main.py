@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from fastapi import FastAPI, Query, Request, HTTPException
+from fastapi import FastAPI, Query, Request, HTTPException, Depends
 from dotenv import load_dotenv
 import os
 from utils import *
@@ -28,6 +28,7 @@ async def get_books(
     order: str = Query("desc", description="Sort order ('asc' or 'desc')"),
     page_no: int = Query(1, description="Page no"),
     page_size: int = Query(20, description="Number of books in one page"),
+    api_key: str = Depends(get_api_key),
 ):
     query = {}
     if category:
@@ -66,7 +67,10 @@ async def get_books(
 
 
 @app.get("/books/{book_id}")
-async def get_book_by_id(book_id: str):
+async def get_book_by_id(
+    book_id: str,
+    api_key: str = Depends(get_api_key),
+):
     book = collection.find_one({"upc": book_id}, {"_id": False})
     if not book:
         raise HTTPException(status_code=404, detail="Book not found")
