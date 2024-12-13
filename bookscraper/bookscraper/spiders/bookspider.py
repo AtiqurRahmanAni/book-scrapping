@@ -5,7 +5,7 @@ from bookscraper.items import BookItem
 base_url = "https://books.toscrape.com"
 
 
-class BookspiderSpider(scrapy.Spider):
+class BooksSpider(scrapy.Spider):
     name = "bookspider"
     allowed_domains = ["books.toscrape.com"]
     start_urls = [base_url]

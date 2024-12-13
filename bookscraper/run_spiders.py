@@ -1,23 +1,19 @@
 import schedule
 import time
-from scrapy.crawler import CrawlerProcess
-from bookscraper.spiders.bookspider import BookspiderSpider
+import subprocess
 
 
-def run_spider():
-    print("Start Scrapping")
-    process = CrawlerProcess(
-        {"USER_AGENT": "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)"}
-    )
-    process.crawl(BookspiderSpider)
-    process.start()
+def crawl_site():
+    print("Starting the crawl...")
+    subprocess.run(["scrapy", "crawl", "bookspider"])
+    print("Crawl completed.")
 
 
-schedule.every(2).minutes.do(run_spider)
+schedule.every(5).minutes.do(crawl_site)
 
 try:
     while True:
-        print("Here")
+        print("Waiting for the next crawl...")
         schedule.run_pending()
         time.sleep(1)
 except KeyboardInterrupt:
