@@ -6,6 +6,10 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 BOT_NAME = "bookscraper"
 
@@ -62,9 +66,10 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    "bookscraper.pipelines.BookscraperPipeline": 300,
-# }
+ITEM_PIPELINES = {
+    "bookscraper.pipelines.BookscraperPipeline": 300,
+    "bookscraper.pipelines.SaveToMongoPipeline": 400,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -90,3 +95,6 @@ ROBOTSTXT_OBEY = True
 # Set settings whose default value is deprecated to a future-proof value
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+MONGO_URI = os.environ.get("MONGO_URI")
+MONGO_DATABASE = os.environ.get("MONGO_DATABASE")
