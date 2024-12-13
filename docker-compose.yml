@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: backend_container
+    build:
+      context: ./backend
+    restart: always
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+
+  crawler:
+    container_name: crawler_container
+    build:
+      context: ./bookscraper
+    restart: always
+    env_file:
+      - ./bookscraper/bookscraper/.env

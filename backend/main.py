@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from fastapi import FastAPI, Query, Request
+from fastapi import FastAPI, Query, Request, HTTPException
 from dotenv import load_dotenv
 import os
 from utils import *
@@ -19,7 +19,7 @@ async def read_root():
 
 
 @app.get("/books/")
-async def read_item(
+async def get_books(
     request: Request,
     category: str = Query(None, description="Filter by category"),
     price_min: float = Query(None, description="Minimum price"),
@@ -38,12 +38,12 @@ async def read_item(
     sort_order = -1 if order == "desc" else 1
 
     books = (
-        collection.find(query)
+        collection.find(query, {"_id": False})
         .sort(sort_by, sort_order)
         .skip((page_no - 1) * page_size)
         .limit(page_size)
     )
-    serialized_books = [serialize_book(book) for book in books]
+    serialized_books = [book for book in books]
 
     total_items = collection.count_documents(query)
     total_pages = (total_items + page_size - 1) // page_size
@@ -63,3 +63,12 @@ async def read_item(
             "prev_page": prev_page_url,
         },
     }
+
+
+@app.get("/books/{book_id}")
+async def get_book_by_id(book_id: str):
+    book = collection.find_one({"upc": book_id}, {"_id": False})
+    if not book:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    return dict(book)
