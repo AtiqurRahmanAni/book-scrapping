@@ -1,6 +1,11 @@
 from itemadapter import ItemAdapter
 from pymongo import MongoClient
 import re
+import pytz
+from datetime import datetime
+from scrapy.utils.project import get_project_settings
+
+settings = get_project_settings()
 
 rating_dict = {"One": 1, "Two": 2, "Three": 3, "Four": 4, "Five": 5}
 
@@ -50,7 +55,11 @@ class SaveToMongoPipeline:
         )
 
     def open_spider(self, spider):
-        self.client = MongoClient(self.mongo_uri)
+        self.client = MongoClient(
+            self.mongo_uri,
+            tz_aware=True,
+            tzinfo=pytz.timezone(settings.get("TIMEZONE")),
+        )
         self.db = self.client[self.mongo_db]
         self.collection = self.db["books"]
 
@@ -85,15 +94,18 @@ class SaveToMongoPipeline:
                     updates[field] = value
 
             if updates:
+                updates["updated_at"] = datetime.now()
                 self.collection.update_one({"upc": upc}, {"$set": updates})
-                spider.logger.info(f"Updated book: {item['book_name']} ({upc})")
+                spider.logger.info(f"Updated book: {data['book_name']} ({upc})")
             else:
                 spider.logger.info(
-                    f"No changes detected for book: {item['book_name']} ({upc})"
+                    f"No changes detected for book: {data['book_name']} ({upc})"
                 )
 
         else:
+            data["created_at"] = datetime.now()
+            data["updated_at"] = data["created_at"]
             self.collection.insert_one(data)
-            spider.logger.info(f"Inserted new book: {item['book_name']} ({upc})")
+            spider.logger.info(f"Inserted new book: {data['book_name']} ({upc})")
 
         return item
