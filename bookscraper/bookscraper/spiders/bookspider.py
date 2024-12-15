@@ -58,7 +58,9 @@ class BooksSpider(scrapy.Spider):
         book_description = response.xpath(
             '//*[@id="content_inner"]/article/p/text()'
         ).get()
-        book_description = unescape(book_description)
+        book_description = (
+            unescape(book_description) if book_description is not None else ""
+        )
 
         rating_class = response.css("p.star-rating::attr(class)").get()
         rating = rating_class.split()[-1]
