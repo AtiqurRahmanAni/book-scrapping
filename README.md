@@ -159,7 +159,7 @@ To stop containers
 
 | Authorization   | Type     | Description                                                                               |
 | :-------------- | :------- | :---------------------------------------------------------------------------------------- |
-| `API-Key`       | `string` | **Required**. Your API key must be assigned to the `API_KEY` variable in the `.env` file |
+| `API-Key`       | `string` | **Required**. Your API key must be assigned to the `API_KEY` variable in the `.env` file  |
 
 #### Get book details
 
@@ -175,4 +175,6 @@ To stop containers
 | :-------------- | :------- | :----------------------------------------------------------------------------------- |
 | `API-Key`       | `string` | **Required**. Your API key must be assigned to the API_KEY variable in the .env file |
 
-You can upload this [file](https://drive.google.com/file/d/1UJ5ae58IL9d1_7AOcxz_tvW3yXUoRYmc/view?usp=sharing) to postman
+You can upload this [file](https://drive.google.com/file/d/1UJ5ae58IL9d1_7AOcxz_tvW3yXUoRYmc/view?usp=sharing) to postman.
+For swagger url go to the following url from browser:
+[http://localhost:8000/docs](http://localhost:8000/docs)
