@@ -18,13 +18,13 @@ async def read_root():
     return {"message": "API is working"}
 
 
-@app.get("/books/")
+@app.get("/api/v1/books/")
 async def get_books(
     request: Request,
     category: str = Query(None, description="Filter by category"),
     price_min: float = Query(None, description="Minimum price"),
     price_max: float = Query(None, description="Maximum price"),
-    sort_by: str = Query("rating", description="Sort by field (e.g., 'rating')"),
+    order_by: str = Query("rating", description="Sort by field (e.g., 'rating')"),
     order: str = Query("desc", description="Sort order ('asc' or 'desc')"),
     page_no: int = Query(1, description="Page no"),
     page_size: int = Query(20, description="Number of books in one page"),
@@ -38,9 +38,12 @@ async def get_books(
 
     sort_order = -1 if order == "desc" else 1
 
+    if order_by != "price" and order_by != "rating":
+        order_by = "rating"
+
     books = (
         collection.find(query, {"_id": False})
-        .sort(sort_by, sort_order)
+        .sort(order_by, sort_order)
         .skip((page_no - 1) * page_size)
         .limit(page_size)
     )
@@ -66,7 +69,7 @@ async def get_books(
     }
 
 
-@app.get("/books/{book_id}")
+@app.get("/api/v1/books/{book_id}")
 async def get_book_by_id(
     book_id: str,
     api_key: str = Depends(get_api_key),

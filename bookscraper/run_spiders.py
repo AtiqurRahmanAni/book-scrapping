@@ -9,7 +9,7 @@ def crawl_site():
     print("Crawl completed.")
 
 
-schedule.every(5).minutes.do(crawl_site)
+schedule.every(1).days.do(crawl_site)
 
 try:
     crawl_site()
