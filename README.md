@@ -1,4 +1,3 @@
-[api-docs.json](https://github.com/user-attachments/files/18140631/api-docs.json)
 # Project Title
 
 A web crawler to crawl https://books.toscrape.com/ periodically and store all the information in database. 
@@ -89,24 +88,33 @@ Create a new virtual environment (For windows)
 ```bash
   python -m venv venv
 ```
+For Linux
+```bash
+  python3 -m venv venv
+```
+
 
 Activate the virtual environment (For windows)
 
 ```bash
   .\venv\Scripts\activate
 ```
+For Linux
+```bash
+   source venv/bin/activate
+```
 
 Install dependencies
 
 ```bash
-  pip install -r .\requirements.txt
+  pip install -r ./requirements.txt
 ```
 
 To run the crawler
 
 ```bash
   cd bookscraper
-  python .\run_spiders.py
+  python ./run_spiders.py
 ```
 
 To run the backend
@@ -149,9 +157,9 @@ To stop containers
 
 
 
-| Authorization   | Type     | Description                                                |
-| :-------------- | :------- | :--------------------------------------------------------- |
-| `API-Key`       | `string` | **Required**. Your API key assigned in `API_KEY` in `.env` file |
+| Authorization   | Type     | Description                                                                               |
+| :-------------- | :------- | :---------------------------------------------------------------------------------------- |
+| `API-Key`       | `string` | **Required**. Your API key must be assigned to the `API_KEY` variable in the `.env` file |
 
 #### Get book details
 
@@ -163,8 +171,8 @@ To stop containers
 | :-------- | :------- | :-------------------------------- |
 | `upc`     | `string` | **Required**. Id of book to fetch |
 
-| Authorization   | Type     | Description                                                |
-| :-------------- | :------- | :--------------------------------------------------------- |
-| `API-Key`       | `string` | **Required**. Your API key assigned in `API_KEY` in `.env` file |
+| Authorization   | Type     | Description                                                                          |
+| :-------------- | :------- | :----------------------------------------------------------------------------------- |
+| `API-Key`       | `string` | **Required**. Your API key must be assigned to the API_KEY variable in the .env file |
 
 You can upload this [file](https://drive.google.com/file/d/1UJ5ae58IL9d1_7AOcxz_tvW3yXUoRYmc/view?usp=sharing) to postman
