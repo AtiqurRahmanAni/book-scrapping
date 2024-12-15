@@ -9,6 +9,8 @@ A web crawler to crawl https://books.toscrape.com/ periodically and store all th
 - Add new books if new books are added to the site.
 - Backend for retrieving book information
 
+## Technology uses
+**Scrapy** is used for the crawler, and **FastAPI** is used for the backend.
 
 ## File Tree
 
