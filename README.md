@@ -85,3 +85,17 @@ To run the backend
   cd backend
   fastapi dev main.py
 ```
+
+## Run in Docker Container
+
+Go to the root directory and run
+
+```bash
+  docker compose up -d --build
+```
+
+To stop containers
+
+```bash
+  docker compose down
+```
